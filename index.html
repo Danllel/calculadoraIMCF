@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #2d89ef;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+        }
+
+        #introduccion {
+            padding: 20px;
+            text-align: center;
+        }
+
+        #introduccion p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        form {
+            background-color: white;
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        form p {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #2d89ef;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        button {
+            background-color: #2d89ef;
+            color: white;
+            padding: 12px 20px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #1e5fa1;
+        }
+
+        #resultado {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e9f5ff;
+            border-left: 5px solid #2d89ef;
+            border-radius: 4px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #mejoras {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #e9f5ff;
+            border-bottom: 5px solid #2d89ef;
+            border-radius: 4px;
+            font-size: 18px;
+            color: #333;
+        }
+        .radio-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .radio-group label {
+            margin-right: 20px; /* Espacio entre los radios */
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>CALCULADORA DE ÍNDICE DE MASA CORPORAL</h1>
+
+    <div id="introduccion">
+        <p>El Índice de Masa Corporal (IMC) es una herramienta ampliamente utilizada para evaluar si una persona tiene un peso saludable en relación con su altura. Este índice permite identificar posibles riesgos para la salud asociados con el bajo peso, el sobrepeso o la obesidad. En nuestra plataforma, podrás calcular fácilmente tu IMC, entender qué significa y obtener recomendaciones personalizadas para mejorar o mantener tu bienestar.</p>
+    </div>
+
+    <form>
+        <p>Género</p>
+        <div class="radio-group">
+            <input type="radio" id="mujer" name="genero" value="mujer">
+            <label for="mujer">Mujer</label>
+            
+            <input type="radio" id="hombre" name="genero" value="hombre">
+            <label for="hombre">Hombre</label>
+        </div>
+
+        <label for="peso">Peso (kg):</label>
+        <input type="text" id="peso" placeholder="Ingresa tu peso en kilogramos">
+
+        <label for="estatura">Estatura (cm):</label>
+        <input type="text" id="estatura" placeholder="Ingresa tu estatura en centímetros">
+
+        <button type="button" onclick="calcularIMC()">Calcular IMC</button>
+    </form>
+
+    <div id="resultado">
+        <!-- Aquí se mostrará el resultado del IMC y la dieta -->
+    </div>
+
+    <div id="mejoras">
+        <p>Gracias por utilizar la página, en el siguiente link podrás ayudarme dejando tu experiencia y sugerencias para mejorar la página.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLScDyaJRg0-YlIkbqFq-ix58rHVM-iXylp3OSygnj1fjlKXU-A/viewform?usp=sf_link">Experiencia Y Sugerencias</a>
+    </div>
+
+    <script>
+        function calcularIMC() {
+            let peso = parseFloat(document.getElementById('peso').value);
+            let estaturaCm = parseFloat(document.getElementById('estatura').value);
+            let estaturaM = estaturaCm / 100;
+
+            if (isNaN(peso) || isNaN(estaturaCm) || peso <= 0 || estaturaCm <= 0) {
+                alert('Por favor ingresa un peso y una estatura válidos.');
+                return;
+            }
+
+            let imc = peso / (estaturaM * estaturaM);
+            let genero;
+
+            if (document.getElementById('mujer').checked) {
+                genero = 'mujer';
+            } else if (document.getElementById('hombre').checked) {
+                genero = 'hombre';
+            } else {
+                alert('Por favor selecciona un género.');
+                return;
+            }
+
+            let mensaje, dieta;
+
+            if (imc <= 18.5) {
+                mensaje = "Tienes un IMC de " + imc.toFixed(2) + " y estás en un nivel de peso bajo.";
+                dieta = "Recomendación de dieta: Incrementa la ingesta calórica con alimentos ricos en proteínas, carbohidratos complejos y grasas saludables. Ejemplo: aguacate, frutos secos, arroz integral, carnes magras.";
+            } else if (imc > 18.5 && imc <= 24.9) {
+                mensaje = "Tienes un IMC de " + imc.toFixed(2) + " y tienes un peso adecuado.";
+                dieta = "Recomendación de dieta: Mantén una dieta equilibrada con frutas, verduras, proteínas magras y grasas saludables. Ejemplo: pollo, pescado, quinoa, verduras frescas.";
+            } else if (imc >= 25 && imc <= 29.9) {
+                mensaje = "Tienes un IMC de " + imc.toFixed(2) + " y estás en sobrepeso.";
+                dieta = "Recomendación de dieta: Reduce el consumo de alimentos altos en calorías y azúcares. Prioriza verduras, proteínas magras, y limita las porciones. Ejemplo: ensaladas, pescados al vapor, legumbres.";
+            } else if (imc >= 30 && imc <= 34.9) {
+                mensaje = "Tienes un IMC de " + imc.toFixed(2) + " y tienes obesidad grado I.";
+                dieta = "Recomendación de dieta: Consulta con un nutricionista para un plan específico. Prioriza alimentos bajos en calorías y altos en fibra. Ejemplo: vegetales, sopas bajas en calorías, avena.";
+            } else {
+                mensaje = "Tienes un IMC de " + imc.toFixed(2) + " y tienes obesidad grado II o superior.";
+                dieta = "Recomendación de dieta: Es vital buscar atención médica para una dieta adecuada y supervisión. Evita alimentos procesados y aumenta el consumo de alimentos integrales.";
+            }
+
+            document.getElementById('resultado').innerHTML = mensaje + "<br>" + dieta;
+        }
+    </script>
+</body>
+</html>
